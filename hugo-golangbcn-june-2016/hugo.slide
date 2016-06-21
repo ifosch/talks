@@ -1,0 +1,165 @@
+Have you seen golangbcn.org?
+Mixing Hugo, GitHub, and Travis for real-time publishing
+28 Jun 2016
+Tags: go, hugo, static site generator, blogs
+
+Ignasi Fosch
+Infrastructure Engineer at Devex and editor at entredevyops.es
+
+* Dynamic web site suites have issues
+
+- CMS's are very used, for nice and featureful sites
+- These are often targeted for attacks
+- Hard to maintain and operate
+- Updates, updates, updates!
+- Their architecture is complex and not really fast to serve
+- Distribution and reliability increase complexity dramatically
+- Admin interfaces might become pretty complex
+- They have a database!
+- Most SaaS providing support for these, are not flexible enough
+
+: Content Management Software had become usual tool being used by many kinds of users.
+: CMS's provide fetureful, easy and nice sites, with easy edition and are plenty of tools.
+: Being so common, they often become target for hackers and many vulnerabilities often arise.
+: CMS's are software, so they need maintenance, and often this maintenance is not simple.
+: CMS depends on other software packages to run, which also need being updated.
+: Most CMS include some plugin system, providing extra features, and themes, which also need being updated.
+: Architecture has many components running dynamically for serving, making the service slow and less reliable.
+: Distributed content and reliable service, make architecture become more complex, hard to maintain, slower, and weaker.
+: So many features make admin interfaces quite complex, and many of these features are not changed so often.
+: Most usually these tools make use of a database, that also require maintenance, backups, upgrades, ...
+: There are many SaaS providing support for these, but the flexibility is not as with the hosted choice.
+
+* When these issues are critical
+
+- Many use cases can not get this amount of effort
+- IT teams need to be ready for these
+- Company needs may not fit
+- Sometimes, these are too featureful
+
+: In many cases, these issues are critical enough, and using a CMS may be not such a good idea.
+: For personal, community, and project pages, putting such a big effort is hard, costly, if not even impossible.
+: Many startups don't have a proper, or big enough, IT team to manage all this hassle and effort.
+: In many of these cases, marketing teams are very prolific, creating many different landing pages for campaigns.
+: Also, so many features are often not required, even if not taking productivity to lower levels.
+
+* Static sites
+
+- Simple plain files being served by a web browser
+- Much less targeted for and weak to attacks
+- Easy to maintain
+- Less software updates
+- Faster to serve
+- Simple and easy distribution and reliability
+
+But,
+
+- Hard to add or modify content
+
+: In such cases, using plain HTML, CSS, and image files to be directly served by a web server might be much better choice.
+: These are less targeted for and much less weak to attacks.
+: A web server and a bunch of files are much easier to maintain and operate, and architecture is much more simple.
+: The only components requiring updates would be web server software and anything is used for load balancing and caching.
+: Serving static files always is much faster than executing more code for serving these.
+: Content distribution and reliability becomes also much easier, even without using specific services.
+: The con in this choice would be having the editors to learn how to write proper and good HTML and CSS.
+
+* What is a static site generator
+
+- Tool to generate static files from one, or more, formats
+- Sources are simple markup files and templates
+- Output are static HTML and assets
+- Many also include plugins, themes, and even publishing tooling
+
+: A static genreator is a piece of software used for generating static files from specific sources.
+: These sources are usually simple markup files, usually Restructured Text or Markdown with some extra data and templates.
+
+* Hugo or ... ?
+
+*DISCLAIMER*: This talk is not stating Hugo is the best one.
+
+Many different choices
+- Octopress,
+- Jekyll,
+- Pelican,
+- Hyde,
+- Nikola,
+- Hugo,
+- Lektor,
+- ...
+
+: Many different choices are out there for a static generator decission.
+: They are difficult to classify or to compare.
+: Most of them have and are evolving, but this talk covers Hugo and what I found interesting from it.
+: Some started simple and not very powerful at the beginning.
+: Later, more features were being added, like plugins and theming, local serving and autorefresh for preview.
+: Improved templating introduced element embedding and theme overriding.
+: Also tooling improved, including publish techniques, or integration with publishing environments.
+: Some even started providing locally served admin interfaces.
+
+* I <3 Hugo
+
+*DISCLAIMER*: I really admire spf13!
+
+- It's made with Go
+- Very fast
+- Very good documentation
+- Very nice and complete template language
+- Templates allow embedding
+- Very good theming system
+- Overriding themes
+- Easy publishing
+
+: Hugo is made with Go, and it's very fast.
+: Hugo's documentation is really good and complete, among the better ones I ever found, with very good tutorials.
+: It uses Go's html/template library, which is really good.
+: Templating language has been extended providing many features, partials, and other stuff, like embedding.
+: The themes are integrated as subrepositories and you just need to run Hugo with a `-t` parameter specifying the theme chosen.
+: You can override many theme's static files and layouts by just creating files in the top level.
+: Publishing is easily automated using some other free services.
+
+* Using Hugo
+
+    go get -u -v github.com/spf13/hugo
+    hugo new site mysite
+    cd mysite
+    hugo new post/first-post.md
+    git clone --recursive https://github.com/spf13/hugoThemes.git themes
+    hugo server -t hugo_theme_robust --buildDrafts
+    hugo undraft content/post/first-post.md
+    hugo -t hugo_theme_robust
+
+: Installing is pretty easy.
+: Hugo provides very easy tooling for creating sites, content, and themes.
+: Installing Hugo themes is as easy as to clone them, all at once, or one each time.
+: Running the local server provides a good way to experiment.
+: Undrafting is a nice tool to use.
+: Building lets you get the static site generated into public folder.
+
+* Adding GitHub Pages and Travis to the mix
+
+https://github.com/GolangBCN/golangbcn.github.io
+
+- GitHub Pages have become a very common way to publish static content
+- For golangbcn.org, we are using Travis, but Wercker might even be easier now
+- Our Travis installs go, hugo, and the theme, runs it, and copies static files to the master branch
+- The build takes not more than 1 minute with good Internet connection
+- We use this for live publishing while the event happens
+- For photos of the event, we use meetup.com, and link these directly using the embedding features
+- Use of GitHub web interface enables us to publish without using anything but a browser
+
+: Using GitHub Pages and Travis enabled our community to publish live posts while our meetups are happening.
+: Wercker is a Travis alternative that deserves to be reviewed, since it includes Hugo build steps already setup.
+: Our Travis uses some scripts to build and publish on every push and pull request merged.
+: They just have to use Go, Hugo and the theme, run Hugo, and copy output to master branch.
+: This happen in seconds, so we usually live update the posts with information and photos from the event.
+: We can publish by using the GitHub web interface to add and modify posts.
+
+* Some links about Hugo
+
+https://gohugo.io/overview/introduction/
+https://github.com/spf13/hugo
+http://themes.gohugo.io/
+https://gohugo.io/showcase/
+
+* Questions?
